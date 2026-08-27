@@ -1,0 +1,275 @@
+library (dual_sensor_top) {
+  comment                        : "";
+  delay_model                    : table_lookup;
+  simulation                     : false;
+  capacitive_load_unit (1,pF);
+  leakage_power_unit             : 1pW;
+  current_unit                   : "1A";
+  pulling_resistance_unit        : "1kohm";
+  time_unit                      : "1ns";
+  voltage_unit                   : "1v";
+  library_features(report_delay_calculation);
+
+  input_threshold_pct_rise : 50;
+  input_threshold_pct_fall : 50;
+  output_threshold_pct_rise : 50;
+  output_threshold_pct_fall : 50;
+  slew_lower_threshold_pct_rise : 20;
+  slew_lower_threshold_pct_fall : 20;
+  slew_upper_threshold_pct_rise : 80;
+  slew_upper_threshold_pct_fall : 80;
+  slew_derate_from_library : 1.0;
+
+
+  nom_process                    : 1.0;
+  nom_temperature                : 25.0;
+  nom_voltage                    : 1.80;
+
+  lu_table_template(template_1) {
+    variable_1 : total_output_net_capacitance;
+    index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+  }
+  type ("led_status") {
+    base_type : array;
+    data_type : bit;
+    bit_width : 3;
+    bit_from : 2;
+    bit_to : 0;
+  }
+
+  cell ("dual_sensor_top") {
+    area : 21071.527 
+    is_macro_cell : true;
+    pin("clk_10mhz") {
+      direction : input;
+      clock : true;
+      capacitance : 0.0275;
+      timing() {
+        timing_sense : positive_unate;
+        timing_type : min_clock_tree_path;
+	cell_rise(scalar) {
+          values("0.59803");
+	}
+	cell_fall(scalar) {
+          values("0.54705");
+	}
+      }
+      timing() {
+        timing_sense : positive_unate;
+        timing_type : max_clock_tree_path;
+	cell_rise(scalar) {
+          values("0.61756");
+	}
+	cell_fall(scalar) {
+          values("0.56061");
+	}
+      }
+    }
+    pin("i2c_scl") {
+      direction : inout;
+      capacitance : 0.0447;
+    }
+    pin("i2c_sda") {
+      direction : inout;
+      capacitance : 0.0444;
+    }
+    pin("pwr_ctrl") {
+      direction : output;
+      capacitance : 0.0009;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.15465,1.15965,1.17168,1.20113,1.28168,1.51499,2.20036");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01737,0.02176,0.03422,0.07134,0.18443,0.52099,1.50739");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.16724,1.17205,1.18233,1.20337,1.24872,1.36483,1.69917");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01775,0.02061,0.02791,0.04575,0.09391,0.24238,0.69509");
+	}
+      }
+    }
+    pin("rst_n") {
+      direction : input;
+      capacitance : 0.0028;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : hold_rising;
+	rise_constraint(scalar) {
+          values("0.47396");
+	}
+	fall_constraint(scalar) {
+          values("-0.14047");
+	}
+      }
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : setup_rising;
+	rise_constraint(scalar) {
+          values("1.31028");
+	}
+	fall_constraint(scalar) {
+          values("1.07599");
+	}
+      }
+    }
+    pin("srf_echo") {
+      direction : input;
+      capacitance : 0.0027;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : hold_rising;
+	rise_constraint(scalar) {
+          values("0.49087");
+	}
+	fall_constraint(scalar) {
+          values("0.49766");
+	}
+      }
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : setup_rising;
+	rise_constraint(scalar) {
+          values("-0.46620");
+	}
+	fall_constraint(scalar) {
+          values("-0.42967");
+	}
+      }
+    }
+    pin("srf_trig") {
+      direction : output;
+      capacitance : 0.0007;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.15248,1.15748,1.16951,1.19896,1.27950,1.51270,2.19903");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01743,0.02182,0.03426,0.07135,0.18448,0.52101,1.50746");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.16372,1.16857,1.17885,1.19990,1.24524,1.36136,1.69571");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01777,0.02059,0.02791,0.04574,0.09389,0.24230,0.69502");
+	}
+      }
+    }
+    pin("uart_tx_pin") {
+      direction : output;
+      capacitance : 0.0010;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.31238,1.31737,1.32942,1.35888,1.43932,1.67248,2.35706");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01731,0.02174,0.03422,0.07132,0.18449,0.52126,1.50675");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.14155,1.14614,1.15644,1.17738,1.22281,1.33890,1.67312");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01761,0.02071,0.02791,0.04583,0.09405,0.24287,0.69553");
+	}
+      }
+    }
+    bus("led_status") {
+      bus_type : led_status;
+      direction : output;
+      capacitance : 0.0000;
+    pin("led_status[2]") {
+      direction : output;
+      capacitance : 0.0009;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.24531,1.25030,1.26235,1.29181,1.37225,1.60539,2.28994");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01731,0.02174,0.03422,0.07132,0.18450,0.52128,1.50669");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.25508,1.25967,1.26996,1.29090,1.33634,1.45243,1.78665");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01761,0.02071,0.02791,0.04583,0.09405,0.24288,0.69554");
+	}
+      }
+    }
+    pin("led_status[1]") {
+      direction : output;
+      capacitance : 0.0007;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("2.03138,2.03674,2.04932,2.07909,2.15946,2.39231,3.08278");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.02027,0.02449,0.03641,0.07248,0.18502,0.52173,1.50720");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("2.43034,2.43496,2.44531,2.46650,2.51205,2.62822,2.96348");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01821,0.02119,0.02832,0.04592,0.09399,0.24243,0.69750");
+	}
+      }
+    }
+    pin("led_status[0]") {
+      direction : output;
+      capacitance : 0.0009;
+      timing() {
+        related_pin : "clk_10mhz";
+        timing_type : rising_edge;
+	cell_rise(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.22350,1.22850,1.24055,1.27001,1.35040,1.58345,2.26790");
+	}
+	rise_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01730,0.02175,0.03424,0.07132,0.18453,0.52140,1.50643");
+	}
+	cell_fall(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("1.23650,1.24107,1.25136,1.27230,1.31773,1.43383,1.76805");
+	}
+	fall_transition(template_1) {
+          index_1("0.00050,  0.00146,  0.00429,  0.01257,  0.03681,  0.10783,  0.31587");
+          values("0.01760,0.02072,0.02791,0.04583,0.09406,0.24292,0.69562");
+	}
+      }
+    }
+    }
+  }
+
+}

@@ -1,0 +1,10 @@
+%Warning-UNUSEDSIGNAL: /home/duncan/sem3project_add/src/max30102_ctrl.v:11:16: Signal is not used: 'fsm_state'
+                                                                             : ... note: In instance 'dual_sensor_top.u_max30102_ctrl'
+   11 |     reg [7:0]  fsm_state;
+      |                ^~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/UNUSEDSIGNAL?v=5.018
+                       ... Use "/* verilator lint_off UNUSEDSIGNAL */" and lint_on around source to disable this message.
+%Warning-UNUSEDPARAM: /home/duncan/sem3project_add/src/packet_assembler.v:26:16: Parameter is not used: 'S_DELAY'
+                                                                               : ... note: In instance 'dual_sensor_top.u_packet_assembler'
+   26 |     localparam S_DELAY  = 4'd11;
+      |                ^~~~~~~

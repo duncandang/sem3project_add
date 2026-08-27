@@ -1,0 +1,5 @@
+`verilator_config
+lint_off -rule DECLFILENAME
+lint_off -rule EOFNEWLINE
+lint_off -rule UNDRIVEN -file "/home/duncan/sem3project_add/runs/RUN_2026-08-27_07-32-05/tmp/1b045b5ac1bd4cb097a93315caa2d448.bb.v"
+lint_off -rule UNUSEDSIGNAL -file "/home/duncan/sem3project_add/runs/RUN_2026-08-27_07-32-05/tmp/1b045b5ac1bd4cb097a93315caa2d448.bb.v"

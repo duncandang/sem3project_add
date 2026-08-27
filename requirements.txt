@@ -1,0 +1,10 @@
+# Essential Python packages for OpenLane 2 host orchestration (venv)
+# Pinning the main package version to match the Docker image version (2.3.10)
+openlane==2.3.10
+
+# Core orchestration and utility dependencies (usually auto-installed by openlane)
+volare>=0.15.0        # PDK management utility used to download and handle sky130 PDKs
+jsonschema>=4.0.0     # Validates design config.json syntax against OpenLane schemas
+click>=8.0.0          # Handles command-line arguments and flags
+rich>=12.0.0          # Renders beautiful terminal UI, bars, and steps in OpenLane 2
+pyyaml>=6.0.0         # Supports parsing YAML-based configuration setups
